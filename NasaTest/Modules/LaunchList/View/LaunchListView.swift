@@ -28,6 +28,9 @@ struct LaunchListView: View {
                     LazyVGrid(columns: [GridItem()]) {
                         ForEach(viewModel.launches, id: \.id) { item in
                             LauchCell(launch: item)
+                                .onTapGesture {
+                                    viewModel.openDetails(for: item)
+                                }
                         }
                     }
                 }

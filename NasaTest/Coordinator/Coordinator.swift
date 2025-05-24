@@ -14,6 +14,7 @@ protocol Coordinator {
     var navigationController: UINavigationController { get set }
     
     func showLaunchListModule()
+    func showLaunchDetailsModule(launch: SpaceResponse)
     
     func popController(animated: Bool)
     func dismissController()
@@ -33,6 +34,14 @@ class CoordinatorImp: Coordinator {
     func showLaunchListModule() {
         let viewController = LauchListHosting()
         let viewModel = LaunchListViewModel(coordinator: self)
+        viewController.viewModel = viewModel
+        navigationController.pushViewController(viewController,
+                                                animated: false)
+    }
+    
+    func showLaunchDetailsModule(launch: SpaceResponse) {
+        let viewController = LaunchDetailsHosting()
+        let viewModel = LaunchDetailsViewModel(launch: launch, coordinator: self)
         viewController.viewModel = viewModel
         navigationController.pushViewController(viewController,
                                                 animated: false)

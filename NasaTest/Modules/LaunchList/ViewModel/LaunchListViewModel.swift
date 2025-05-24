@@ -28,6 +28,10 @@ final class LaunchListViewModel: ObservableObject {
         }
     }
     
+    func openDetails(for launch: SpaceResponse) {
+        coordinator.showLaunchDetailsModule(launch: launch)
+    }
+    
     func back() {
         coordinator.popController(animated: true)
     }
