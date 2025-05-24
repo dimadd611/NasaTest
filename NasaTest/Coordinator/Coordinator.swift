@@ -14,7 +14,7 @@ protocol Coordinator {
     var navigationController: UINavigationController { get set }
     
     func showLaunchListModule()
-    func showLaunchDetailsModule(launch: SpaceResponse)
+    func showLaunchDetailsModule(launch: SpaceResponse, isFavourite: Bool)
     func showFavouritesModule()
     
     func popController(animated: Bool)
@@ -37,15 +37,15 @@ class CoordinatorImp: Coordinator {
         let viewModel = LaunchListViewModel(coordinator: self)
         viewController.viewModel = viewModel
         navigationController.pushViewController(viewController,
-                                                animated: false)
+                                                animated: true)
     }
     
-    func showLaunchDetailsModule(launch: SpaceResponse) {
+    func showLaunchDetailsModule(launch: SpaceResponse, isFavourite: Bool) {
         let viewController = LaunchDetailsHosting()
-        let viewModel = LaunchDetailsViewModel(launch: launch, coordinator: self)
+        let viewModel = LaunchDetailsViewModel(launch: launch, coordinator: self, isFavourite: isFavourite)
         viewController.viewModel = viewModel
         navigationController.pushViewController(viewController,
-                                                animated: false)
+                                                animated: true)
     }
     
     func showFavouritesModule() {
@@ -53,7 +53,7 @@ class CoordinatorImp: Coordinator {
         let viewModel = FavouritesViewModel(coordinator: self)
         viewController.viewModel = viewModel
         navigationController.pushViewController(viewController,
-                                                animated: false)
+                                                animated: true)
     }
     
     func popController(animated: Bool) {

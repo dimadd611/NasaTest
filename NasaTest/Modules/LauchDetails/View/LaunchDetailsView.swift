@@ -10,6 +10,7 @@ import SwiftUI
 
 struct LaunchDetailsView: View {
     
+    @State private var showingError = false
     @ObservedObject var viewModel: LaunchDetailsViewModel
     
     var body: some View {
@@ -17,8 +18,14 @@ struct LaunchDetailsView: View {
             Color(hex: "1E2430")
                 .ignoresSafeArea()
             VStack {
-                TopView(title: viewModel.launch.name ?? "") {
+                TopView(title: viewModel.launch.name ?? "", fav: true, isFavourite: $viewModel.isFavourite) {
                     viewModel.back()
+                } favAction: {
+                    if !viewModel.isFavourite {
+                        viewModel.appendToFavourites()
+                    } else {
+                        viewModel.deleteFromFavourites()
+                    }
                 }
                 
                 if !viewModel.isLoading {
@@ -59,12 +66,25 @@ struct LaunchDetailsView: View {
         .onAppear() {
             viewModel.getRocketInfo()
         }
+        .alert(isPresented: $showingError) {
+            Alert(
+                title: Text("Error"),
+                message: Text(viewModel.errorMessage ?? "Unknown error"),
+                dismissButton: .default(Text("Ok")) {
+                    viewModel.isLoading = false
+                })}
+        .onChange(of: viewModel.errorMessage) { newValue in
+            showingError = newValue != nil
+        }
     }
 }
 
 struct TopView: View {
     var title: String
+    var fav: Bool
+    @Binding var isFavourite: Bool
     var action: () -> Void
+    var favAction: () -> Void
     var body: some View {
         HStack {
             
@@ -74,18 +94,29 @@ struct TopView: View {
                 HStack(spacing: 0) {
                     Image(systemName: "chevron.left")
                         .foregroundStyle(.blue)
-                    Text("SpaceX")
                 }
             }
-            .frame(width: 72)
+            .frame(width: 40)
             
             Spacer()
             
             Text(title)
                 .foregroundStyle(.black)
-                .padding(.trailing, 72)
+                .padding(.trailing, fav ? 0 : 40)
             
             Spacer()
+            
+            if fav {
+                Button(action: {
+                    favAction()
+                }){
+                    HStack(spacing: 0) {
+                        Image(isFavourite ? "favourite" : "unfavourite")
+                            .frame(width: 40, height: 40)
+                    }
+                }
+                .frame(width: 40, height: 40)
+            }
         }
         .padding(.horizontal, 10)
         .frame(width: UIScreen.main.bounds.width, height: 50)

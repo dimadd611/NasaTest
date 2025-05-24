@@ -10,6 +10,8 @@ import Foundation
 final class LaunchListViewModel: ObservableObject {
     @Published var launches: [SpaceResponse] = []
     @Published var favourites: [SpaceResponse] = []
+    @Published var errorMessage: String?
+    
     var coordinator: Coordinator
     
     init(coordinator: Coordinator) {
@@ -22,9 +24,16 @@ final class LaunchListViewModel: ObservableObject {
                 let launches = try await APIManager.shared.fetchLaunches()
                 DispatchQueue.main.async {
                     self.launches = launches
+                    self.errorMessage = nil // Ошибка отсутствует
+                }
+            } catch let apiError as APIError {
+                DispatchQueue.main.async {
+                    self.errorMessage = apiError.localizedDescription
                 }
             } catch {
-                print("Другая ошибка: \(error.localizedDescription)")
+                DispatchQueue.main.async {
+                    self.errorMessage = error.localizedDescription
+                }
             }
         }
     }
@@ -43,7 +52,7 @@ final class LaunchListViewModel: ObservableObject {
     }
     
     func openDetails(for launch: SpaceResponse) {
-        coordinator.showLaunchDetailsModule(launch: launch)
+        coordinator.showLaunchDetailsModule(launch: launch, isFavourite: checkIfFavourite(launch))
     }
     
     func deleteFromFavourites(id: String) {

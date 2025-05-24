@@ -11,6 +11,7 @@ import SDWebImageSwiftUI
 
 struct LaunchListView: View {
     
+    @State private var showingError = false
     @ObservedObject var viewModel: LaunchListViewModel
     
     var body: some View {
@@ -23,6 +24,7 @@ struct LaunchListView: View {
                     Spacer()
                     Text("SpaceX")
                         .foregroundStyle(.black)
+                        .padding(.leading, 40)
                     
                     Spacer()
                     Button {
@@ -30,6 +32,7 @@ struct LaunchListView: View {
                     } label: {
                         Image("favourite")
                     }
+                    .frame(width: 40, height: 40)
                 }
                 .padding(.horizontal, 20)
                 .frame(width: UIScreen.main.bounds.width, height: 50)
@@ -59,6 +62,12 @@ struct LaunchListView: View {
         .onAppear() {
             viewModel.getLaunchList()
             viewModel.getFavourites()
+        }
+        .alert(isPresented: $showingError) {
+            Alert(title: Text("Ошибка"), message: Text(viewModel.errorMessage ?? "Неизвестная ошибка"), dismissButton: .default(Text("Ок")))
+        }
+        .onChange(of: viewModel.errorMessage) { newValue in
+            showingError = newValue != nil
         }
     }
 }

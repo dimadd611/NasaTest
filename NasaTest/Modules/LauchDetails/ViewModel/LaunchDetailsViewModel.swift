@@ -11,11 +11,15 @@ final class LaunchDetailsViewModel: ObservableObject {
     @Published var launch: SpaceResponse
     @Published var rocket: RocketResponse?
     @Published var isLoading = false
+    @Published var errorMessage: String?
+    @Published var isFavourite: Bool
+    
     var coordinator: Coordinator
     
-   init (launch: SpaceResponse, coordinator: Coordinator) {
+   init (launch: SpaceResponse, coordinator: Coordinator, isFavourite: Bool) {
         self.launch = launch
         self.coordinator = coordinator
+        self.isFavourite = isFavourite
     }
     
     func getRocketInfo() {
@@ -28,8 +32,14 @@ final class LaunchDetailsViewModel: ObservableObject {
                     self.rocket = info
                     self.isLoading = false
                 }
+            } catch let apiError as APIError {
+                DispatchQueue.main.async {
+                    self.errorMessage = apiError.localizedDescription
+                }
             } catch {
-                print("Другая ошибка: \(error.localizedDescription)")
+                DispatchQueue.main.async {
+                    self.errorMessage = error.localizedDescription
+                }
             }
         }
     }
@@ -40,6 +50,15 @@ final class LaunchDetailsViewModel: ObservableObject {
             sum += weight.kg ?? 0
         }
         return "\(sum)"
+    }
+    
+    func appendToFavourites() {
+        DataBaseManager.shared.createLaunch(launch: launch)
+        isFavourite = true
+    }
+    func deleteFromFavourites() {
+        DataBaseManager.shared.deleteLaunch(id: launch.id ?? "")
+        isFavourite = false
     }
     
     func back() {

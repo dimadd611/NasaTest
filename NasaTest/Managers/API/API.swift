@@ -10,21 +10,21 @@ import Foundation
 import Alamofire
 
 enum APIError: Error, LocalizedError {
-    case networkFailure(Error)      // Ошибка сети / Alamofire
-    case decodingFailure(Error)     // Ошибка декодирования
-    case serverError(statusCode: Int) // Ошибка сервера с кодом
-    case unknown                   // Неизвестная ошибка
+    case networkFailure(Error)      
+    case decodingFailure(Error)
+    case serverError(statusCode: Int)
+    case unknown
 
     var errorDescription: String? {
         switch self {
-        case .networkFailure(let err):
-            return "Сетевая ошибка: \(err.localizedDescription)"
+        case .networkFailure(_):
+            return "Network error: Please check your internet connection."
         case .decodingFailure(let err):
-            return "Ошибка обработки данных: \(err.localizedDescription)"
+            return "Data processing error: \(err.localizedDescription)"
         case .serverError(let code):
-            return "Ошибка сервера: код \(code)"
+            return "Server error: status code \(code)"
         case .unknown:
-            return "Неизвестная ошибка"
+            return "Unknown error occurred"
         }
     }
 }

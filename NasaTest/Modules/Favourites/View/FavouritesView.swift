@@ -18,15 +18,18 @@ struct FavouritesView: View {
                 .ignoresSafeArea()
             
             VStack {
-                TopView(title: "Favourites") {
+                TopView(title: "Favourites", fav: false, isFavourite: .constant(false)) {
                     viewModel.back()
-                }
+                } favAction: {}
                 
                 ScrollView {
                     LazyVGrid(columns: [GridItem()]) {
                         ForEach(viewModel.favourites, id: \.id) { item in
                             LauchCell(launch: item, isFav: true) {
                                 viewModel.deleteFromFavourites(id: item.id ?? "")
+                            }
+                            .onTapGesture {
+                                viewModel.openDetails(for: item, isFavourite: true)
                             }
                         }
                     }

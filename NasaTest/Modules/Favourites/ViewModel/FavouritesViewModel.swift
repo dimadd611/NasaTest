@@ -19,6 +19,10 @@ final class FavouritesViewModel: ObservableObject {
         favourites = DataBaseManager.shared.fetchLaunches().map({$0.toModel()})
     }
     
+    func openDetails(for launch: SpaceResponse, isFavourite: Bool) {
+        coordinator.showLaunchDetailsModule(launch: launch, isFavourite: isFavourite)
+    }
+    
     func deleteFromFavourites(id: String) {
         DataBaseManager.shared.deleteLaunch(id: id)
         getFavourites()
