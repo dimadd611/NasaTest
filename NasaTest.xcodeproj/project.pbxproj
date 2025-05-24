@@ -6,6 +6,11 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		703335CA2DE1D20400EE0111 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 703335C92DE1D20400EE0111 /* Alamofire */; };
+		703335D22DE1E99F00EE0111 /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 703335D12DE1E99F00EE0111 /* SDWebImageSwiftUI */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		703335712DE1C93C00EE0111 /* NasaTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NasaTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -36,6 +41,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				703335D22DE1E99F00EE0111 /* SDWebImageSwiftUI in Frameworks */,
+				703335CA2DE1D20400EE0111 /* Alamofire in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -78,6 +85,8 @@
 			);
 			name = NasaTest;
 			packageProductDependencies = (
+				703335C92DE1D20400EE0111 /* Alamofire */,
+				703335D12DE1E99F00EE0111 /* SDWebImageSwiftUI */,
 			);
 			productName = NasaTest;
 			productReference = 703335712DE1C93C00EE0111 /* NasaTest.app */;
@@ -107,6 +116,10 @@
 			);
 			mainGroup = 703335682DE1C93C00EE0111;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				703335C82DE1D20400EE0111 /* XCRemoteSwiftPackageReference "Alamofire" */,
+				703335D02DE1E99F00EE0111 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 703335722DE1C93C00EE0111 /* Products */;
 			projectDirPath = "";
@@ -145,6 +158,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = DN58SF98NV;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = NasaTest/App/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -172,6 +186,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = DN58SF98NV;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = NasaTest/App/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -333,6 +348,38 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		703335C82DE1D20400EE0111 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.10.2;
+			};
+		};
+		703335D02DE1E99F00EE0111 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SDWebImage/SDWebImageSwiftUI";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.1.3;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		703335C92DE1D20400EE0111 /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 703335C82DE1D20400EE0111 /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
+		703335D12DE1E99F00EE0111 /* SDWebImageSwiftUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 703335D02DE1E99F00EE0111 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */;
+			productName = SDWebImageSwiftUI;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 703335692DE1C93C00EE0111 /* Project object */;
 }
