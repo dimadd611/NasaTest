@@ -15,6 +15,7 @@ protocol Coordinator {
     
     func showLaunchListModule()
     func showLaunchDetailsModule(launch: SpaceResponse)
+    func showFavouritesModule()
     
     func popController(animated: Bool)
     func dismissController()
@@ -42,6 +43,14 @@ class CoordinatorImp: Coordinator {
     func showLaunchDetailsModule(launch: SpaceResponse) {
         let viewController = LaunchDetailsHosting()
         let viewModel = LaunchDetailsViewModel(launch: launch, coordinator: self)
+        viewController.viewModel = viewModel
+        navigationController.pushViewController(viewController,
+                                                animated: false)
+    }
+    
+    func showFavouritesModule() {
+        let viewController = FavouritesHosting()
+        let viewModel = FavouritesViewModel(coordinator: self)
         viewController.viewModel = viewModel
         navigationController.pushViewController(viewController,
                                                 animated: false)
