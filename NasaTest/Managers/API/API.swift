@@ -62,4 +62,32 @@ final class APIManager {
                 }
         }
     }
+    
+    func getRocketInfo(id: String) async throws -> RocketResponse {
+        let url = "\(baseURL)/rockets/\(id)"
+        let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = .iso8601
+
+        return try await withCheckedThrowingContinuation { continuation in
+            AF.request(url)
+                .validate(statusCode: 200..<300) // Валидируем только успешные коды
+                .responseDecodable(of: RocketResponse.self, decoder: decoder) { response in
+                    switch response.result {
+                    case .success(let launches):
+                        continuation.resume(returning: launches)
+                    case .failure(let error):
+                        if let responseCode = response.response?.statusCode,
+                           !(200..<300).contains(responseCode) {
+                            continuation.resume(throwing: APIError.serverError(statusCode: responseCode))
+                        } else if let decodingError = error.asAFError?.underlyingError as? DecodingError {
+                            continuation.resume(throwing: APIError.decodingFailure(decodingError))
+                        } else if let afError = error.asAFError {
+                            continuation.resume(throwing: APIError.networkFailure(afError))
+                        } else {
+                            continuation.resume(throwing: APIError.unknown)
+                        }
+                    }
+                }
+        }
+    }
 }

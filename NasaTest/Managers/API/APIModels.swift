@@ -82,3 +82,25 @@ struct Flickr: Codable {
 struct Patch: Codable {
     let small, large: String?
 }
+
+import Foundation
+
+// MARK: - SpaceResponse
+struct RocketResponse: Codable {
+    let payloadWeights: [PayloadWeight]?
+    let name: String?
+    let wikipedia: String?
+    let id: String?
+
+    enum CodingKeys: String, CodingKey {
+        case payloadWeights = "payload_weights"
+        case name
+        case id, wikipedia
+    }
+}
+
+// MARK: - PayloadWeight
+struct PayloadWeight: Codable {
+    let id, name: String?
+    let kg, lb: Int?
+}
